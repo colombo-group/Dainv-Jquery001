@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jqury001</title>
+	<link rel="stylesheet" href="http://necolas.github.com/normalize.css/2.0.1/normalize.css"> 
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+ 
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+	<style type="text/css">
+	
+		  
+
+	h1{
+		text-align: center;
+	}
+	.khoi1{
+		    width: 416px;
+    		float: left;
+	}
+	textarea{
+		width: 400px;
+    	height: 230px;
+	}
+	.hienthi{
+		width: 838px;
+    background: white;
+    height: 300px;
+    margin-left: 489px;
+    border: 1px solid;
+    overflow-y: scroll;
+	}
+	.khoinut {
+    margin-left: 507px;
+    margin-top: 20px;
+     }
+     input[type="radio"] {
+    margin-left: 517px;
+    margin-top: 30px;
+		}
+	li{
+		list-style: none;
+	}
+	.chon{
+		color: red;
+	}
+	.hienthi ul {
+    padding: 0px;
+    margin: 0px;
+	}
+	</style>
+	
+
+</head>
+
+<body>	
+	<h1 id="top"> Jquery 001</h1>
+	<div class="khoi1">
+		<textarea id="nhap"  > </textarea>
+		<input type="button" name="impost" id="impost" value="impost">
+		<input type="button" name="imTop" id="imTop" value="Impost Top" >
+	</div>
+	<div class="hienthi" id="hthi">
+		<ul id="uk">
+			
+		</ul>
+		
+	</div>
+
+	<div class="khoinut">
+	<input type="button" id="delete" value="Delete">
+	<input type="button"  id="export"value="Export">	
+	<input type="button" id="other" value="Other">
+
+	</div>
+		
+	<ul id="ul"></ul>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var b=new Array();
+			
+		$('#impost').click(function(event) {
+			// var dem=$('#nhap').html();
+			var a=$('#nhap').val().split('\n');
+				  // console.log(dem.length-1)	 ;	
+			if(a.length==null)										
+			{
+				alert("mang rong");
+			}else{
+				for(i=0;i<a.length;i++)
+				{
+					$('#hthi ul').append(function(){
+					return "<li>"+a[i]+"</li>";
+					});
+				}
+			
+				$('#nhap').val("")
+				listli();
+				addclass();
+				 }
+			});
+		$('#imTop').click(function(event) {
+			var a=$('#nhap').val().split('\n');
+			if(a.length==1)
+			{
+				alert("mang rong");
+			}else{
+
+				for(i=0;i<a.length;i++)
+				{
+					$('#hthi ul').prepend("<li>"+a[i]+"</li>")
+				}
+				$('#nhap').val("")
+				listli();
+				addclass();
+				}
+			});
+		$('#other').click(function(event) {
+			var c= $('#hthi li');
+			for(i=0;i<c.length;i++){
+				var a=$('#hthi li:last').text();
+				b.push(a);
+				$('#hthi li:last').remove();
+			}
+			console.log(b);
+			b.sort();
+			hienthi(b);
+			listli();
+			b.splice(0,b.length);
+				
+			addclass();
+			});
+
+			
+			
+		$("#delete").click(function(event) {
+			if($('#hthi li').length==0)
+			{
+				alert('da xoa het');
+			}else{
+				if($('.chon').length==0)
+				{
+					$('#hthi li:last').hide("1200",function(){
+						$(this).remove();
+					});
+				}else{
+					$('.chon').hide("1200",function(){
+					$(this).remove();
+					});
+				}
+			}
+					// console.log(i);
+				 	
+		});
+			
+		$('#export').click(function(event) {
+			var k=$('.chon');
+			if($('#hthi li').length==0)
+			{
+					alert('da xoa het');
+			}else{
+				if($('.chon').length==0){
+					$('#ul').append("<li><input type='radio' />"+$('#hthi li:last').text()+"</li>");
+					$('#hthi li:last').hide("1200",function(){
+						$(this).remove();
+					});
+				}else{
+					 for(i=0;i<k.length;i++)
+					 {
+					$('#ul').append("<li><input type='radio'/>"+$(k[i]).text()+"</li>");
+					$(k[i]).hide("1200",function(){
+						$(this).remove();
+					});
+					}
+				}
+				 
+				$('#ul li').click(function(){
+					$(this).hide("1200", function(){
+						$(this).remove();
+					})
+				});
+			}
+			});
+			function hienthi(val)
+			{
+				var text="";
+				for (i=0;i<val.length;i++)
+				{
+					text +="<li>"+val[i]+"</li>";
+				}
+				$('#hthi ul').html(text);
+			}
+			function addclass(){
+				$("#hthi li").click(function(){
+					$(this).toggleClass("chon");
+				});
+			}
+			function listli() {
+					$("#hthi li").css("background-color", "#fff");
+					$("#hthi li:even").css("background-color", "#ddd");
+				}
+			$(function() {
+		        $( "#uk" ).sortable({
+		        	placeholder: "ui-sortable-placeholder"});
+		       
+		    });
+			    
+			 });
+
+			
+		</script>
+</body>
+</html>
